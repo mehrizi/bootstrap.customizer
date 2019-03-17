@@ -1,0 +1,22 @@
+{
+    "name": "mehrizi/bootstrap.customizer",
+    "description": "A Bootstrap 4 customizer with PHP",
+    "keywords": ["css", "stylesheet", "scss", "sass", "bootstrap","PHP","customizer"],
+    "type": "library",
+    "require": {
+        "leafo/scssphp": "0.7.7",
+        "twbs/bootstrap": "4.0.0"
+    },
+    "require-dev": {
+        "leafo/scssphp": "0.7.7",
+        "twbs/bootstrap": "4.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mahdi Mehrizi",
+            "email": "mahdi.mehrizi@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
