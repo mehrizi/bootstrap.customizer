@@ -11,6 +11,9 @@
         "leafo/scssphp": "0.7.7",
         "twbs/bootstrap": "4.0.0"
     },
+    "autoload": {
+        "psr-4": { "Mehrizi\\Customizer\\": "src/" }
+    },
     "license": "MIT",
     "authors": [
         {
