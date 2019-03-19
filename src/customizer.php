@@ -1,5 +1,12 @@
 <?php
 namespace Mehrizi\Bootstrap;
+if (file_exists(__DIR__."/../vendor"))
+{
+	define("BCUSTOMIZER_VENDOR_REL_PATH","/vendor");
+}
+else
+	define("BCUSTOMIZER_VENDOR_REL_PATH","/../..");
+include_once __DIR__."/..".BCUSTOMIZER_VENDOR_REL_PATH."/autoload.php";
 
 class Customizer
 {
@@ -26,9 +33,10 @@ class Customizer
 	public function build ( $echo = false, $minified = true , $cache=true)
 	{
 		$unique = sha1 ($this->variables_str);
-		if ($cache &&file_exists (BOOTSTRAP_CUSTOMIZER_ROOT."/cache/$unique.css")) // read from cache if exists
+		$cache_path = __DIR__."/../cache/$unique.css";
+		if ($cache &&file_exists ($cache_path)) // read from cache if exists
 		{
-			$content = file_get_contents (BOOTSTRAP_CUSTOMIZER_ROOT."/cache/$unique.css");
+			$content = file_get_contents ($cache_path);
 		}
 		else
 		{
@@ -37,24 +45,24 @@ class Customizer
 			if ( $minified )
 				$scss->setFormatter ( "Leafo\ScssPhp\Formatter\Crunched" );
 
-			$scss->setImportPaths (BOOTSTRAP_CUSTOMIZER_ROOT);
+			$scss->setImportPaths (__DIR__."/../");
 			// before bootstrap imports
-			$path  = BOOTSTRAP_CUSTOMIZER_ROOT."/scss/_before/";
+			$path  = __DIR__."/scss/_before/";
 			$files = glob ( $path . "*.scss" );
 			foreach ( $files as $file )
 				$str .= "@import \"scss/_before/".basename($file)."\";";
 
 			// Bootstrap impementation
-			$str .= $this->variables_str . "\n@import \"vendor/twbs/bootstrap/scss/bootstrap.scss\";";
+			$str .= $this->variables_str . "\n@import \"".BCUSTOMIZER_VENDOR_REL_PATH."/twbs/bootstrap/scss/bootstrap.scss\";";
 
 			// after bootstrap imports
-			$path  = BOOTSTRAP_CUSTOMIZER_ROOT."/scss/";
+			$path  = __DIR__."/scss/";
 			$files = glob ( $path . "*.scss" );
 			foreach ( $files as $file )
 				$str .= "@import \"scss/".basename($file)."\";";
 
 			$content = $scss->compile ( $str );
-			file_put_contents (BOOTSTRAP_CUSTOMIZER_ROOT."/cache/$unique.css",$content);
+			file_put_contents (__DIR__."/../cache/$unique.css",$content);
 		}
 
 		if ($echo === false)
@@ -73,7 +81,7 @@ class Customizer
 
 	public static function clear_cache()
 	{
-		$files = glob ( BOOTSTRAP_CUSTOMIZER_ROOT."/cache/*.css" );
+		$files = glob ( __DIR__."/../cache/*.css" );
 		foreach ( $files as $file )
 			unlink($file);
 	}
